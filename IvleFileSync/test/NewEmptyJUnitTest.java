@@ -46,6 +46,7 @@ public class NewEmptyJUnitTest {
         int sum = 0;
         sum = Math.max(num1, num2);
         assertEquals(sum, total);
+        
   }
 
 }
