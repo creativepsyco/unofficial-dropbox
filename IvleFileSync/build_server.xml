@@ -44,7 +44,17 @@
     <jar jarfile="${dist}/lib/IvleFileSync-${DSTAMP}.jar" basedir="${build}"/>
   </target>
 
-<target name="test" depends="compile" description="Execute Unit Tests" >
+    <target name="compile-test" depends="compile" description="compile the tests " >
+       <!-- Compile the java code from ${src} into ${build} -->
+       <javac srcdir="${test.dir}" destdir="${build}"> 
+	     <classpath>
+	  <path refid="files-classpath" />
+       </classpath> 
+       </javac>
+      
+    </target>
+
+<target name="test" depends="compile-test" description="Execute Unit Tests" >
   <junit printsummary="yes" fork="yes" haltonfailure="yes" showoutput="false">
    <classpath refid="files-classpath" />
     <batchtest fork="yes" todir="${test.report.dir}/"> 
