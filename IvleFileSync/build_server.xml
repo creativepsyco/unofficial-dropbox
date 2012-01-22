@@ -10,6 +10,11 @@
 	<!-- Variables used for JUnit testing -->
 	<property name="test.dir" location="test" />
 	<property name="test.report.dir" location="test-reports" />
+ <path id="junit-classpath">
+    <fileset dir="${test.dir}">
+	<include name = "*" />
+    </fileset>
+ </path>
  
 <path id="files-classpath">
     <fileset dir="/usr/lib" >
@@ -56,7 +61,10 @@
 
 <target name="test" depends="compile-test" description="Execute Unit Tests" >
   <junit printsummary="yes" fork="yes" haltonfailure="yes" showoutput="false">
-   <classpath refid="files-classpath" />
+   <classpath >
+    <path refid="files-classpath" />
+    <path refid= "junit-classpath" />
+   </classpath>
     <batchtest fork="yes" todir="${test.report.dir}/"> 
                 <formatter type="xml"/> 
                 <fileset dir="${test.dir}"> 
