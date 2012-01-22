@@ -45,9 +45,9 @@
   </target>
 
 <target name="test" depends="compile" description="Execute Unit Tests" >
-  <junit printsummary="yes" fork="no" haltonfailure="yes">
+  <junit printsummary="yes" fork="yes" haltonfailure="yes" showoutput="false">
    <classpath refid="files-classpath" />
-    <batchtest fork="yes" todir="${test.report.dir}/raw/"> 
+    <batchtest fork="yes" todir="${test.report.dir}/"> 
                 <formatter type="xml"/> 
                 <fileset dir="${test.dir}"> 
                         <include name="*Test*.java"/> 

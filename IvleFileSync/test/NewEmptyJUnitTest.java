@@ -9,12 +9,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import junit.framework.*;
 
 /**
  *
  * @author msk
  */
-public class NewEmptyJUnitTest {
+public class NewEmptyJUnitTest extends TestCase{
 
     public NewEmptyJUnitTest() {
     }
