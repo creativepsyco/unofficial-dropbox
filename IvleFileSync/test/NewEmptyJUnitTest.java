@@ -38,15 +38,33 @@ public class NewEmptyJUnitTest {
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
-
-  public void testAdd() {
-        int num1 = 3;
-        int num2 = 2;
-        int total = 3;
-        int sum = 0;
-        sum = Math.max(num1, num2);
-        assertEquals(sum, total);
-        
-  }
+    @Test
+    public void testAdd() {
+      int num1 = 3;
+      int num2 = 2;
+      int total = 5;
+      int sum = 0;
+      sum = Math.add(num1, num2);
+      assertEquals(sum, total);
+    }
+    
+    @Test
+    public void testMulitply() {
+      
+      int num1 = 3; 
+      int num2 = 7; 
+      int total = 21;
+      int sum = 0;
+      sum = Math.multiply(num1, num2);
+      assertEquals("Problem with multiply", sum, total);
+      
+      
+      num1 = 5;
+      num2 = 4;
+      total = 20;
+      sum = Math.multiply(num1, num2);
+      assertEquals("Problem with multiply", sum, total);
+      
+    }
 
 }
