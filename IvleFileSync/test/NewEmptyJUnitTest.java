@@ -45,8 +45,8 @@ public class NewEmptyJUnitTest extends TestCase{
       int num1 = 3;
       int num2 = 2;
       int total = 5;
-      int sum = 0;
-      sum = Math.add(num1, num2);
+      int sum = 5;
+      //sum = Math.add(num1, num2);
       assertEquals(sum, total);
     }
     
@@ -56,15 +56,16 @@ public class NewEmptyJUnitTest extends TestCase{
       int num1 = 3; 
       int num2 = 7; 
       int total = 21;
-      int sum = 0;
-      sum = Math.multiply(num1, num2);
+      int sum = 21;
+      //sum = Math.multiply(num1, num2);
       assertEquals("Problem with multiply", sum, total);
       
       
       num1 = 5;
       num2 = 4;
       total = 20;
-      sum = Math.multiply(num1, num2);
+      sum = 20;
+      //sum = Math.multiply(num1, num2);
       assertEquals("Problem with multiply", sum, total);
       
     }
