@@ -3,82 +3,86 @@
     <description>
         simple example build file
     </description>
-  <!-- set global properties for this build -->
-  <property name="src" location="src"/>
-  <property name="build" location="build"/>
-  <property name="dist"  location="dist"/>
-	<!-- Variables used for JUnit testing -->
-	<property name="test.dir" location="test" />
-	<property name="test.report.dir" location="test-reports" />
- <path id="junit-classpath">
-    <fileset dir="${test.dir}">
-	<include name = "*" />
-    </fileset>
- </path>
+    <!-- set global properties for this build -->
+    <property name="src" location="src"/>
+    <property name="build" location="build"/>
+    <property name="dist"  location="dist"/>
+      <!-- Variables used for JUnit testing -->
+    <property name="test.dir" location="test" />
+    <property name="test.dir.build" location="test-build" />
+    <property name="test.report.dir" location="test-reports" />
+
+    <path id="junit-classpath">
+       <fileset dir="${test.dir.build}">
+	   <include name = "*.class" />
+       </fileset>
+    </path>
  
-<path id="files-classpath">
-    <fileset dir="/usr/lib" >
-        <include name="*.jar"/>
-    </fileset>
-</path> 
+    <path id="files-classpath">
+	<fileset dir="/usr/lib" >
+	    <include name="*.jar"/>
+	</fileset>
+    </path> 
 
-  <target name="init">
-    <!-- Create the time stamp -->
-    <tstamp/>
-    <!-- Create the build directory structure used by compile -->
-    <mkdir dir="${build}"/>
-    <mkdir dir="${test.report.dir}" />
-  </target>
-
-  <target name="compile" depends="init" description="compile the source " >
-    <!-- Compile the java code from ${src} into ${build} -->
-     <javac srcdir="${src}" destdir="${build}"> 
-	   <classpath>
-	<path refid="files-classpath" />
-    </classpath> 
-</javac>
-   
-   </target>
- 
-  <target name="dist" depends="compile"
-        description="generate the distribution" >
-    <!-- Create the distribution directory -->
-    <mkdir dir="${dist}/lib"/>
-
-    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/IvleFileSync-${DSTAMP}.jar" basedir="${build}"/>
-  </target>
-
-    <target name="compile-test" depends="compile" description="compile the tests " >
-       <!-- Compile the java code from ${src} into ${build} -->
-       <javac srcdir="${test.dir}" destdir="${build}"> 
-	     <classpath>
-	  <path refid="files-classpath" />
-       </classpath> 
-       </javac>
-      
+    <target name="init">
+      <!-- Create the time stamp -->
+      <tstamp/>
+      <!-- Create the build directory structure used by compile -->
+      <mkdir dir="${build}"/>
+      <mkdir dir="${test.report.dir}" />
+      <mkdir dir="${test.dir.build}" />
     </target>
 
-<target name="test" depends="compile-test" description="Execute Unit Tests" >
-  <junit printsummary="yes" fork="yes" haltonfailure="yes" showoutput="false">
-   <classpath >
-    <path refid="files-classpath" />
-    <path refid= "junit-classpath" />
-   </classpath>
-    <batchtest fork="yes" todir="${test.report.dir}/"> 
-                <formatter type="xml"/> 
-                <fileset dir="${test.dir}"> 
-                        <include name="*Test*.java"/> 
-                </fileset> 
-    </batchtest> 
-  </junit>
-</target>
+    <target name="compile" depends="init" description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+	<javac srcdir="${src}" destdir="${build}"> 
+	    <classpath>
+		<path refid="files-classpath" />
+	    </classpath> 
+       </javac>     
+    </target>
 
-  <target name="clean"
-        description="clean up" >
-    <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"/>
-    <delete dir="${test.report.dir}" />
-    <delete dir="${dist}"/>
-  </target>
+    <target name="dist" depends="compile"
+	  description="generate the distribution" >
+      <!-- Create the distribution directory -->
+      <mkdir dir="${dist}/lib"/>
+      <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+      <jar jarfile="${dist}/lib/IvleFileSync-${DSTAMP}.jar" basedir="${build}"/>
+    </target>
+
+    <target name="compile-test" depends="compile" description="compile the tests " >
+    <!-- Compile the java code from ${src} into ${build} -->
+	<javac srcdir="${test.dir}" destdir="${test.dir.build}"> 
+	    <classpath>
+		<pathelement path="${build}"/>
+		<path refid="files-classpath" />
+		<path refid="junit-classpath" />
+	    </classpath> 
+	</javac>
+    </target>
+
+    <target name="test" depends="compile-test" description="Execute Unit Tests" >
+      <junit printsummary="no" fork="no" haltonfailure="yes" showoutput="true">
+	<classpath >
+	 <pathelement path="${test.dir.build}" />
+	 <path refid="files-classpath" />
+	 <path refid= "junit-classpath" />
+	</classpath>
+	<batchtest fork="no" todir="${test.report.dir}/"> 
+		    <formatter type="xml"/> 
+		    <fileset dir="${test.dir}"> 
+			    <include name="*Test*.java"/> 
+		    </fileset> 
+	</batchtest> 
+      </junit>
+    </target>
+
+    <target name="clean"
+	  description="clean up" >
+      <!-- Delete the ${build} and ${dist} directory trees -->
+      <delete dir="${build}"/>
+      <delete dir="${test.report.dir}" />
+      <delete dir="${dist}" />
+      <delete dir="${test.dir.build}" />
+    </target>
 </project>
