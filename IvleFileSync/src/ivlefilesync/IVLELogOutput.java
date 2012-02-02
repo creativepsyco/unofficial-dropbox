@@ -26,7 +26,7 @@ public class IVLELogOutput {
     }
 
     public void Log(String s){
-        // Currently prints on the Debug Level
+        // Currently prints on the Debug Window
         Debug.println("[ivleFileSync]: ", s);
     }
 }

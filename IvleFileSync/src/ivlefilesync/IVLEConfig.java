@@ -19,6 +19,7 @@ public class IVLEConfig {
     public final String RegisterDeviceURL = AppURL + "api/registerdevice/";
     public final String UnRegisterDeviceURL = AppURL + "api/unregisterdevice/";
     public final String SyncDeviceURL = AppURL + "api/sync/";
+    public final String DownloadFileURL = AppURL + "api/download/";
 
 
     private IVLEConfig(){

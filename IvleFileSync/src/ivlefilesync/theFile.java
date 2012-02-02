@@ -10,13 +10,11 @@ import java.util.*;
  *
  * @author msk
  */
-public class Device_SyncResult {
-    public boolean Success;
-    public String LastSync;
-    public String Error;
-    public theFile[] theFiles;
-
-    public Device_SyncResult(){
+public class theFile {
+    public UUID FileID;
+    public String DirectoryPath;
+    public String FileName;
+    public theFile() {
 
     }
 }

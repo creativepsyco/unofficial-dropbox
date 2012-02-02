@@ -1,2 +1,0 @@
-ivlefilesync.theFile
-ivlefilesync.Device_SyncResult

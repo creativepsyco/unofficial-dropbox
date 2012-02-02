@@ -12,14 +12,20 @@ import java.io.*;
  * @author msk
  */
 public class IVLEOfflineStorage {
+    
+    // The name of properties file being used
+    private static final String APPLICATIONPROPPROPERTIES = "applicationProp.properties";
 
     private static IVLELogOutput ivleLogOutput = IVLELogOutput.getInstance();
     private static Properties defaultProp;
 
+    /***
+     * Loads the properties from the disk
+     */
     public static void LoadProperties() {
         defaultProp = new Properties();
         try{
-            FileInputStream in = new FileInputStream("applicationProp.properties");
+            FileInputStream in = new FileInputStream(APPLICATIONPROPPROPERTIES);
             defaultProp.load(in);
             in.close();
         } catch (Exception e) {
@@ -31,7 +37,7 @@ public class IVLEOfflineStorage {
     public static void Save(){
         try{
             ivleLogOutput.Log("Saving properties file");
-            FileOutputStream out = new FileOutputStream("applicationProp.properties");
+            FileOutputStream out = new FileOutputStream(APPLICATIONPROPPROPERTIES);
             defaultProp.store(out, "---No Comment---");
             out.close();
         } catch (Exception e) {
@@ -45,7 +51,10 @@ public class IVLEOfflineStorage {
         defaultProp.setProperty(key, value);
         Save();
     }
-    
+    /***
+     * Remove a property from the properties file
+     * @param key
+     */
     public static void RemoveProperty(String key){
         LoadProperties();
         defaultProp.remove(key);
