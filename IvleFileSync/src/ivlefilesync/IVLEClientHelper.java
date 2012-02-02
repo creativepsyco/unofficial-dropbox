@@ -3,8 +3,9 @@
  * and open the template in the editor.
  */
 package ivlefilesync;
-
+import ivlefilesync.util.*;
 import com.google.gson.Gson;
+import ivlefilesync.util.FileDownload;
 import java.util.*;
 import java.io.*;
 
@@ -72,7 +73,7 @@ public class IVLEClientHelper {
             } else {
 
                 // Pass the control to the Downloading thread.
-
+                FileDownload.Download(result, UserID, APIKey);
                 
             }
         }
