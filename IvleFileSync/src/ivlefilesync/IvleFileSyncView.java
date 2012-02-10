@@ -329,6 +329,7 @@ public class IvleFileSyncView extends FrameView {
            result = IVLEClientHelper.RegisterDevice(jTextField1.getText().toString(), jTextField2.getText().toString());
         } catch (Exception e) {
             e.printStackTrace();
+            //TEST Comment
         }
 
         if (!result) {
