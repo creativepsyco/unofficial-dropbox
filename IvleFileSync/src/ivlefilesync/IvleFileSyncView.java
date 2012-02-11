@@ -16,6 +16,10 @@ import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import java.io.*;
+import java.awt.*;
+
+
+
 
 /**
  * The application's main frame.
@@ -26,7 +30,7 @@ public class IvleFileSyncView extends FrameView {
         super(app);
 
         initComponents();
-
+        this.RunTray();
         // status bar initialization - message timeout, idle icon and busy animation, etc
         ResourceMap resourceMap = getResourceMap();
         int messageTimeout = resourceMap.getInteger("StatusBar.messageTimeout");
@@ -80,8 +84,56 @@ public class IvleFileSyncView extends FrameView {
                 }
             }
         });
+        
     }
 
+    /* The method adds system tray */
+    
+     public void RunTray() {
+        final TrayIcon trayIcon;
+
+        if (SystemTray.isSupported()) {
+            SystemTray tray = SystemTray.getSystemTray(); 
+            Image image = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/splash.png"));
+            ActionListener exitListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Exiting...");
+                System.exit(0);
+            }
+        };
+            
+        PopupMenu popup = new PopupMenu();
+        MenuItem defaultItem = new MenuItem("Exit");
+        defaultItem.addActionListener(exitListener);
+        popup.add(defaultItem);
+
+        trayIcon = new TrayIcon(image, "IVLE FileSync", popup);
+
+        ActionListener actionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+        trayIcon.displayMessage("Action Event", 
+        "An Action Event Has Been Performed!",
+         TrayIcon.MessageType.INFO);
+        }
+    };
+            
+    trayIcon.setImageAutoSize(true);
+    trayIcon.addActionListener(actionListener);
+
+    try {
+        tray.add(trayIcon);
+    } catch (AWTException e) {
+        System.err.println("TrayIcon could not be added.");
+    }
+
+    } else {
+
+    //  System Tray is not supported
+
+    }
+}
+     
+     
     @Action
     public void showAboutBox() {
         if (aboutBox == null) {
@@ -370,6 +422,8 @@ public class IvleFileSyncView extends FrameView {
                 jTextField2.getText().toString());
         javax.swing.JOptionPane.showMessageDialog(null, res.Success + "\n" + res.LastSync.toString());
     }//GEN-LAST:event_jButton4MouseClicked
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
