@@ -16,7 +16,8 @@ public class IvleFileSyncApp extends SingleFrameApplication {
      * At startup create and show the main frame of the application.
      */
     @Override protected void startup() {
-        show(new IvleFileSyncView(this));
+        new IvleFileSyncView(this);
+        //show(new IvleFileSyncView(this));
     }
 
     /**

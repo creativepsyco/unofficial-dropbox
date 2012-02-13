@@ -101,11 +101,47 @@ public class IvleFileSyncView extends FrameView {
                 System.exit(0);
             }
         };
-            
+
+
+        ActionListener manuallySyncListener = new ActionListener() {
+
+                public void actionPerformed(ActionEvent ae) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+            };
+
+        ActionListener setDirItemActionListener = new ActionListener() {
+
+                public void actionPerformed(ActionEvent ae) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+            };
+
+        ActionListener aboutBoxActionListener = new ActionListener() {
+
+                public void actionPerformed(ActionEvent ae) {
+                    showAboutBox();
+                }
+            };
+
         PopupMenu popup = new PopupMenu();
+   
+        MenuItem anotherItem = new MenuItem("Manually Sync");
+        anotherItem.addActionListener(manuallySyncListener);
+        popup.add(anotherItem);
+
+        MenuItem setDirItem = new MenuItem("Settings...");
+        setDirItem.addActionListener(setDirItemActionListener);
+        popup.add(setDirItem);
+
+        MenuItem aboutBoxItem = new MenuItem("About");
+        aboutBoxItem.addActionListener(aboutBoxActionListener);
+        popup.add(aboutBoxItem);
+
         MenuItem defaultItem = new MenuItem("Exit");
         defaultItem.addActionListener(exitListener);
         popup.add(defaultItem);
+
 
         trayIcon = new TrayIcon(image, "IVLE FileSync", popup);
 
