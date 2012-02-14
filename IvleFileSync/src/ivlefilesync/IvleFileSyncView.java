@@ -16,7 +16,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import java.io.*;
 import java.awt.*;
-
+import java.lang.Thread;
 /**
  * The application's main frame.
  */
@@ -27,6 +27,8 @@ public class IvleFileSyncView extends FrameView {
 
         initComponents();
         this.RunTray();
+        SyncThread new_thread = new SyncThread();
+        new_thread.start();
         // status bar initialization - message timeout, idle icon and busy animation, etc
         ResourceMap resourceMap = getResourceMap();
         int messageTimeout = resourceMap.getInteger("StatusBar.messageTimeout");
