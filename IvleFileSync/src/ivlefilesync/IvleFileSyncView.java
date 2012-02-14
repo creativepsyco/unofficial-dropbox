@@ -16,6 +16,8 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import java.io.*;
 import java.awt.*;
+import java.net.URL;
+import javax.swing.ImageIcon;
 
 /**
  * The application's main frame.
@@ -92,7 +94,9 @@ public class IvleFileSyncView extends FrameView {
 
         if (SystemTray.isSupported()) {
             SystemTray tray = SystemTray.getSystemTray();
-            Image image = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/splash.png"));
+            ResourceMap resourceMap = getResourceMap();
+            ImageIcon image =  resourceMap.getImageIcon("StatusBar.idleIcon");
+            //Image image = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/splash.png"));
             ActionListener exitListener = new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
@@ -146,7 +150,7 @@ public class IvleFileSyncView extends FrameView {
             popup.add(defaultItem);
 
 
-            trayIcon = new TrayIcon(image, "IVLE FileSync", popup);
+            trayIcon = new TrayIcon(image.getImage(), "IVLE FileSync", popup);
 
             ActionListener actionListener = new ActionListener() {
 
