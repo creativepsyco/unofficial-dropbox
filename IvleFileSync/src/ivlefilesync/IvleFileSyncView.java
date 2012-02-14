@@ -92,7 +92,7 @@ public class IvleFileSyncView extends FrameView {
 
         if (SystemTray.isSupported()) {
             SystemTray tray = SystemTray.getSystemTray();
-            Image image = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("busyicons/idle-icon.png"));
+            Image image = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/splash.png"));
             ActionListener exitListener = new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
