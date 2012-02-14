@@ -21,14 +21,13 @@ public class SyncThread extends Thread {
 
     @Override
     public void run() {
-        System.out.println("Hello from a thread!");
-        //  StringBuilder result = new StringBuilder();
 
-        Device_SyncResult res = IVLEClientHelper.SyncAndDownload(
+        Device_SyncResult res = IVLECoreClient.Sync(
                 IVLEOfflineStorage.GetPropertyValue(Constants.UserID),
-                IVLEOfflineStorage.GetPropertyValue(Constants.APIKey));
+                IVLEOfflineStorage.GetPropertyValue(Constants.APIKey),
+                UUID.fromString(IVLEOfflineStorage.GetPropertyValue(Constants.DeviceID)));
         Gson gson = new Gson();
-        String jsonStringResult = gson.toJson(res.theFiles, Gson.class);
+        String jsonStringResult = gson.toJson(res, Device_SyncResult.class);
         IVLEOfflineStorage.SetProperty(Constants.FileQueue, jsonStringResult);
 
         String theSyncDir = IVLEOfflineStorage.GetPropertyValue(Constants.SyncDirectory);
@@ -77,6 +76,11 @@ public class SyncThread extends Thread {
                         }
                     } else {
                         // TODO: what to do in the case the file exists
+                        Device_SyncResult resultCopy = res;
+                        resultCopy.theFiles.remove(i);
+                        IVLEOfflineStorage.SetProperty(Constants.FileQueue,
+                                new Gson().toJson(resultCopy, Device_SyncResult.class));
+
                     }
 
                 } catch (Exception e) {
