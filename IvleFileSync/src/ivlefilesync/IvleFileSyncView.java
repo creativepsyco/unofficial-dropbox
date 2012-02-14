@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import java.io.*;
 import java.awt.*;
 import java.lang.Thread;
+import javax.swing.ImageIcon;
 /**
  * The application's main frame.
  */
@@ -94,7 +95,8 @@ public class IvleFileSyncView extends FrameView {
 
         if (SystemTray.isSupported()) {
             SystemTray tray = SystemTray.getSystemTray();
-            Image image = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/splash.png"));
+//            Image image = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/splash.png"));
+            Image image = new ImageIcon(this.getClass().getResource("resources/splash.png")).getImage();
             ActionListener exitListener = new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {

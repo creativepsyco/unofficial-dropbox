@@ -20,8 +20,8 @@ public class FileDownload {
     public static void Download(Device_SyncResult result, String UserID, String APIKey) {
         File syncDir = new File(IVLEOfflineStorage.GetPropertyValue(Constants.SyncDirectory));
 
-        for (int i = 0; i < result.theFiles.length; i++) {
-                    theFile aFile = result.theFiles[i];
+        for (int i = 0; i < result.theFiles.size(); i++) {
+                    theFile aFile = result.theFiles.get(i);
                     try {
                         // Convert path into forward slashes
                         aFile.DirectoryPath = aFile.DirectoryPath.replace('\\', '/');
