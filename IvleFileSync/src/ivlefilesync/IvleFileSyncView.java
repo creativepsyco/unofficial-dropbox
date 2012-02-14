@@ -1,7 +1,6 @@
 /*
  * IvleFileSyncView.java
  */
-
 package ivlefilesync;
 
 import org.jdesktop.application.Action;
@@ -18,9 +17,6 @@ import javax.swing.JFrame;
 import java.io.*;
 import java.awt.*;
 
-
-
-
 /**
  * The application's main frame.
  */
@@ -35,6 +31,7 @@ public class IvleFileSyncView extends FrameView {
         ResourceMap resourceMap = getResourceMap();
         int messageTimeout = resourceMap.getInteger("StatusBar.messageTimeout");
         messageTimer = new Timer(messageTimeout, new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
                 statusMessageLabel.setText("");
             }
@@ -45,6 +42,7 @@ public class IvleFileSyncView extends FrameView {
             busyIcons[i] = resourceMap.getIcon("StatusBar.busyIcons[" + i + "]");
         }
         busyIconTimer = new Timer(busyAnimationRate, new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
                 busyIconIndex = (busyIconIndex + 1) % busyIcons.length;
                 statusAnimationLabel.setIcon(busyIcons[busyIconIndex]);
@@ -57,6 +55,7 @@ public class IvleFileSyncView extends FrameView {
         // connecting action tasks to status bar via TaskMonitor
         TaskMonitor taskMonitor = new TaskMonitor(getApplication().getContext());
         taskMonitor.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 String propertyName = evt.getPropertyName();
                 if ("started".equals(propertyName)) {
@@ -73,103 +72,105 @@ public class IvleFileSyncView extends FrameView {
                     progressBar.setVisible(false);
                     progressBar.setValue(0);
                 } else if ("message".equals(propertyName)) {
-                    String text = (String)(evt.getNewValue());
+                    String text = (String) (evt.getNewValue());
                     statusMessageLabel.setText((text == null) ? "" : text);
                     messageTimer.restart();
                 } else if ("progress".equals(propertyName)) {
-                    int value = (Integer)(evt.getNewValue());
+                    int value = (Integer) (evt.getNewValue());
                     progressBar.setVisible(true);
                     progressBar.setIndeterminate(false);
                     progressBar.setValue(value);
                 }
             }
         });
-        
+
     }
 
     /* The method adds system tray */
-    
-     public void RunTray() {
+    public void RunTray() {
         final TrayIcon trayIcon;
 
         if (SystemTray.isSupported()) {
-            SystemTray tray = SystemTray.getSystemTray(); 
+            SystemTray tray = SystemTray.getSystemTray();
             Image image = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/splash.png"));
             ActionListener exitListener = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Exiting...");
-                System.exit(0);
-            }
-        };
 
-
-        ActionListener manuallySyncListener = new ActionListener() {
-
-                public void actionPerformed(ActionEvent ae) {
-                    throw new UnsupportedOperationException("Not supported yet.");
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("Exiting...");
+                    System.exit(0);
                 }
             };
 
-        ActionListener setDirItemActionListener = new ActionListener() {
+
+            ActionListener manuallySyncListener = new ActionListener() {
 
                 public void actionPerformed(ActionEvent ae) {
-                    throw new UnsupportedOperationException("Not supported yet.");
+                    Device_SyncResult res = IVLEClientHelper.SyncAndDownload(
+                           IVLEOfflineStorage.GetPropertyValue(Constants.UserID),
+                            IVLEOfflineStorage.GetPropertyValue(Constants.APIKey));
+                    javax.swing.JOptionPane.showMessageDialog(null, res.Success + "\n" + res.LastSync.toString());
                 }
             };
 
-        ActionListener aboutBoxActionListener = new ActionListener() {
+            ActionListener setDirItemActionListener = new ActionListener() {
+
+                public void actionPerformed(ActionEvent ae) {
+                    frmPreferences myPreferences = new frmPreferences();
+                    IvleFileSyncApp.getApplication().show(myPreferences);
+                }
+            };
+
+            ActionListener aboutBoxActionListener = new ActionListener() {
 
                 public void actionPerformed(ActionEvent ae) {
                     showAboutBox();
                 }
             };
 
-        PopupMenu popup = new PopupMenu();
-   
-        MenuItem anotherItem = new MenuItem("Manually Sync");
-        anotherItem.addActionListener(manuallySyncListener);
-        popup.add(anotherItem);
+            PopupMenu popup = new PopupMenu();
 
-        MenuItem setDirItem = new MenuItem("Settings...");
-        setDirItem.addActionListener(setDirItemActionListener);
-        popup.add(setDirItem);
+            MenuItem anotherItem = new MenuItem("Manually Sync");
+            anotherItem.addActionListener(manuallySyncListener);
+            popup.add(anotherItem);
 
-        MenuItem aboutBoxItem = new MenuItem("About");
-        aboutBoxItem.addActionListener(aboutBoxActionListener);
-        popup.add(aboutBoxItem);
+            MenuItem setDirItem = new MenuItem("Settings...");
+            setDirItem.addActionListener(setDirItemActionListener);
+            popup.add(setDirItem);
 
-        MenuItem defaultItem = new MenuItem("Exit");
-        defaultItem.addActionListener(exitListener);
-        popup.add(defaultItem);
+            MenuItem aboutBoxItem = new MenuItem("About");
+            aboutBoxItem.addActionListener(aboutBoxActionListener);
+            popup.add(aboutBoxItem);
+
+            MenuItem defaultItem = new MenuItem("Exit");
+            defaultItem.addActionListener(exitListener);
+            popup.add(defaultItem);
 
 
-        trayIcon = new TrayIcon(image, "IVLE FileSync", popup);
+            trayIcon = new TrayIcon(image, "IVLE FileSync", popup);
 
-        ActionListener actionListener = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-        trayIcon.displayMessage("Action Event", 
-        "An Action Event Has Been Performed!",
-         TrayIcon.MessageType.INFO);
+            ActionListener actionListener = new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    trayIcon.displayMessage("Action Event",
+                            "An Action Event Has Been Performed!",
+                            TrayIcon.MessageType.INFO);
+                }
+            };
+
+            trayIcon.setImageAutoSize(true);
+            trayIcon.addActionListener(actionListener);
+
+            try {
+                tray.add(trayIcon);
+            } catch (AWTException e) {
+                System.err.println("TrayIcon could not be added.");
+            }
+
+        } else {
+            //  System Tray is not supported
         }
-    };
-            
-    trayIcon.setImageAutoSize(true);
-    trayIcon.addActionListener(actionListener);
-
-    try {
-        tray.add(trayIcon);
-    } catch (AWTException e) {
-        System.err.println("TrayIcon could not be added.");
     }
 
-    } else {
-
-    //  System Tray is not supported
-
-    }
-}
-     
-     
     @Action
     public void showAboutBox() {
         if (aboutBox == null) {
@@ -413,15 +414,14 @@ public class IvleFileSyncView extends FrameView {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         boolean result = false;
-        try{
-           result = IVLEClientHelper.RegisterDevice(jTextField1.getText().toString(), jTextField2.getText().toString());
+        try {
+            result = IVLEClientHelper.RegisterDevice(jTextField1.getText().toString(), jTextField2.getText().toString());
         } catch (Exception e) {
             e.printStackTrace();
             //TEST Comment
         }
 
         if (!result) {
-            
         }
 
     }//GEN-LAST:event_jButton1MouseClicked
@@ -431,36 +431,33 @@ public class IvleFileSyncView extends FrameView {
             IVLEClientHelper.UnRegisterDevice(
                     jTextField1.getText().toString(),
                     jTextField2.getText().toString());
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
-        
+
         fc.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
         int returnVal = fc.showOpenDialog(null);
         if (returnVal == javax.swing.JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             //This is where a real application would open the file.
             IVLEOfflineStorage.SetProperty("SyncDirectory", file.getAbsolutePath().toString());
-            IVLELogOutput.getInstance().Log("Opening: " + file.getName() + "." );
+            IVLELogOutput.getInstance().Log("Opening: " + file.getName() + ".");
         } else {
-            IVLELogOutput.getInstance().Log("Open command cancelled by user." );
+            IVLELogOutput.getInstance().Log("Open command cancelled by user.");
         }
 
     }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
         Device_SyncResult res = IVLEClientHelper.SyncAndDownload(
-                jTextField1.getText().toString(),
-                jTextField2.getText().toString());
+                IVLEOfflineStorage.GetPropertyValue(Constants.UserID),
+                IVLEOfflineStorage.GetPropertyValue(Constants.APIKey));
         javax.swing.JOptionPane.showMessageDialog(null, res.Success + "\n" + res.LastSync.toString());
     }//GEN-LAST:event_jButton4MouseClicked
-
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -480,13 +477,11 @@ public class IvleFileSyncView extends FrameView {
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
     // End of variables declaration//GEN-END:variables
-
     private final Timer messageTimer;
     private final Timer busyIconTimer;
     private final Icon idleIcon;
     private final Icon[] busyIcons = new Icon[15];
     private int busyIconIndex = 0;
-
     private JDialog aboutBox;
     private final javax.swing.JFileChooser fc = new javax.swing.JFileChooser();
 }

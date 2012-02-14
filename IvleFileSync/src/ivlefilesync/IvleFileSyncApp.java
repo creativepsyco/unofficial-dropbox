@@ -4,6 +4,7 @@
 
 package ivlefilesync;
 
+import javax.swing.JPanel;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 

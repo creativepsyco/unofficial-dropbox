@@ -28,9 +28,12 @@ public class IVLEClientHelper {
         java.net.InetAddress localMachine = java.net.InetAddress.getLocalHost();
         String DeviceSerial = localMachine.getHostName().toString();
         String DeviceName = localMachine.getHostName().toString();
+
         UUID result = IVLECoreClient.RegisterDevice(UserID, APIKey, DeviceSerial, DeviceName);
 
-        IVLEOfflineStorage.SetProperty("DeviceID", result.toString());
+        IVLEOfflineStorage.SetProperty(Constants.DeviceID, result.toString());
+        IVLEOfflineStorage.SetProperty(Constants.APIKey, APIKey);
+        IVLEOfflineStorage.SetProperty(Constants.UserID, UserID);
 
         return result != null;
     }

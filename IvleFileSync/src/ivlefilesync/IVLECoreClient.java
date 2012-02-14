@@ -40,6 +40,7 @@ public class IVLECoreClient {
         try {
             u = new URL(ivleConfig.RegisterDeviceURL + URLEncoder.encode(UserID, encoding) + "/" + URLEncoder.encode(APIKey, encoding)
                     + "/" + URLEncoder.encode(DeviceSerial, encoding) + "/" + URLEncoder.encode(DeviceName, encoding));
+            ivleLogOutput.Log(u.toString());
             is = u.openStream();
             BufferedReader d = new BufferedReader(new InputStreamReader(is));
 
