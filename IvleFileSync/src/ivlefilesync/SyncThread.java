@@ -21,6 +21,7 @@ public class SyncThread extends Thread {
 
     @Override
     public void run() {
+        //TODO: Do locking on the file
 
         Device_SyncResult res = IVLECoreClient.Sync(
                 IVLEOfflineStorage.GetPropertyValue(Constants.UserID),
@@ -84,6 +85,7 @@ public class SyncThread extends Thread {
                     }
 
                 } catch (Exception e) {
+
                 }
 
             }
