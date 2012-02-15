@@ -19,10 +19,14 @@ import javax.swing.JFrame;
 import java.io.*;
 import java.awt.*;
 import javax.swing.ImageIcon;
+
 /**
  * The application's main frame.
  */
 public class IvleFileSyncView extends FrameView {
+
+    public static boolean flag = true;
+    private static final IVLELogOutput ivleLogOutput = IVLELogOutput.getInstance();
 
     public IvleFileSyncView(SingleFrameApplication app) {
         super(app);
@@ -110,10 +114,14 @@ public class IvleFileSyncView extends FrameView {
             ActionListener manuallySyncListener = new ActionListener() {
 
                 public void actionPerformed(ActionEvent ae) {
-                    Device_SyncResult res = IVLEClientHelper.SyncAndDownload(
-                           IVLEOfflineStorage.GetPropertyValue(Constants.UserID),
-                            IVLEOfflineStorage.GetPropertyValue(Constants.APIKey));
-                    javax.swing.JOptionPane.showMessageDialog(null, res.Success + "\n" + res.LastSync.toString());
+                    if (flag == true) {
+                        Device_SyncResult res = IVLEClientHelper.SyncAndDownload(
+                                IVLEOfflineStorage.GetPropertyValue(Constants.UserID),
+                                IVLEOfflineStorage.GetPropertyValue(Constants.APIKey));
+                        javax.swing.JOptionPane.showMessageDialog(null, res.Success + "\n" + res.LastSync.toString());
+                    } else {
+                        ivleLogOutput.Log("Sync already in progress");
+                    }
                 }
             };
 
