@@ -67,8 +67,7 @@ public class IVLESystemTray {
 				}
 				
 				private void showAboutBox() {
-					throw new UnsupportedOperationException(
-							"Not yet implemented");
+					IvleFileSyncApp.getApplication().show(new IvleFileSyncAboutBox(null));
 				}
 			};
 
