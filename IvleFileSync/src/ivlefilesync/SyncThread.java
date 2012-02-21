@@ -6,6 +6,8 @@ package ivlefilesync;
 
 import java.lang.Thread;
 import com.google.gson.*;
+
+import java.awt.TrayIcon;
 import java.io.File;
 import java.util.UUID;
 
@@ -23,13 +25,13 @@ public class SyncThread extends Thread {
 			.GetPropertyValue(Constants.APIKey);
 
 	private boolean checkSyncPreconditions() {
-		
+
 		String deviceID = IVLEOfflineStorage
 				.GetPropertyValue(Constants.DeviceID);
 		String syncDir = IVLEOfflineStorage
 				.GetPropertyValue(Constants.SyncDirectory);
 		String apiKey = IVLEOfflineStorage.GetPropertyValue(Constants.APIKey);
-		
+
 		//TODO: Make more detailed checks than just checking for value of property strings
 
 		if (deviceID == null || deviceID == "") {
@@ -46,7 +48,7 @@ public class SyncThread extends Thread {
 			Exceptions.APIKeyNotFoundException("SyncThread");
 			return false;
 		}
-		
+
 		if (IvleFileSyncApp.SYNC_PENDING) {
 			return false;
 		}
@@ -62,7 +64,10 @@ public class SyncThread extends Thread {
 			if (checkSyncPreconditions()) 
 			{
 				IvleFileSyncApp.SYNC_PENDING = true;
-
+				TrayIcon trayIcon = SystemTrayIcon.getInstance();
+				trayIcon.displayMessage("IVLESync",
+						"Synchronizing Folder",
+						TrayIcon.MessageType.INFO);
 				ivleLogOutput.Log("Sync starting...");
 
 				Device_SyncResult res = IVLECoreClient.Sync(IVLEOfflineStorage
@@ -104,8 +109,8 @@ public class SyncThread extends Thread {
 									fileDir.mkdirs();
 								} catch (Exception e) {
 									ivleLogOutput
-											.Log("Unable to create directory: "
-													+ e.getMessage());
+									.Log("Unable to create directory: "
+											+ e.getMessage());
 									e.printStackTrace();
 								}
 							}
@@ -115,13 +120,18 @@ public class SyncThread extends Thread {
 								try {
 									realFile.createNewFile();
 									//Download the File
+									trayIcon.displayMessage("IVLESync",
+											"Downloading Files",
+											TrayIcon.MessageType.INFO);
 									IVLECoreClient.Download(UserID, APIKey,
 											UUID.fromString(IVLEOfflineStorage
 													.GetPropertyValue(
 															Constants.DeviceID)
-													.toString()), aFile.FileID,
-											realFile);
-									
+															.toString()), aFile.FileID,
+															realFile);
+									trayIcon.displayMessage("IVLESync",
+											"Downloading Completed",
+											TrayIcon.MessageType.INFO);
 									Device_SyncResult resultCopy = res;
 									resultCopy.theFiles.remove(i);
 									IVLEOfflineStorage.SetProperty(
@@ -131,8 +141,8 @@ public class SyncThread extends Thread {
 
 								} catch (Exception e) {
 									ivleLogOutput
-											.Log("Unable to create directory: "
-													+ e.getMessage());
+									.Log("Unable to create directory: "
+											+ e.getMessage());
 									e.printStackTrace();
 								}
 							} else {
@@ -154,12 +164,15 @@ public class SyncThread extends Thread {
 					// FileDownload.Download(result, UserID, APIKey);
 				}
 				ivleLogOutput.Log("Sync done");
+				trayIcon.displayMessage("IVLESync",
+						"Synchronization Completed",
+						TrayIcon.MessageType.INFO);
 				IvleFileSyncApp.SYNC_PENDING = false;
-				
+
 			} else {
 				ivleLogOutput.Log("Cannot Start Sync Since preconditions were not met...");
 			}
-			
+
 			try {
 				sleep(1000 * IVLEConfig.getInstance().CLIENT_FREQ_IN_SECONDS);
 			} catch (Exception e) {

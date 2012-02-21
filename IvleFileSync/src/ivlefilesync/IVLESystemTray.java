@@ -106,6 +106,7 @@ public class IVLESystemTray {
 
 			try {
 				tray.add(trayIcon);
+				SystemTrayIcon.setInstance(trayIcon);
 			} catch (AWTException e) {
 				System.err.println("TrayIcon could not be added.");
 			}

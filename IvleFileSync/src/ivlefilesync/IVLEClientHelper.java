@@ -7,6 +7,7 @@ import ivlefilesync.util.*;
 import com.google.gson.Gson;
 import ivlefilesync.util.FileDownload;
 import java.util.*;
+import java.awt.TrayIcon;
 import java.io.*;
 
 /**
@@ -57,6 +58,11 @@ public class IVLEClientHelper {
      * @return
      */
     public static Device_SyncResult SyncAndDownload(String UserID, String APIKey) {
+    	
+    	TrayIcon trayIcon = SystemTrayIcon.getInstance();
+		trayIcon.displayMessage("IVLESync",
+			    "Synchronizing Folder",
+			    	TrayIcon.MessageType.INFO);
         Device_SyncResult result = IVLECoreClient.Sync(UserID, APIKey, UUID.fromString(IVLEOfflineStorage.GetPropertyValue("DeviceID")));
         if (result.Success) {
             
@@ -77,12 +83,21 @@ public class IVLEClientHelper {
                 }
             } else {
 
+        		trayIcon.displayMessage("IVLESync",
+        			    "Downloading Files",
+        			    	TrayIcon.MessageType.INFO);
                 // Pass the control to the Downloading thread.
                 FileDownload.Download(result, UserID, APIKey);
                 
+                trayIcon.displayMessage("IVLESync",
+        			    "Downloading Completed",
+        			    	TrayIcon.MessageType.INFO);
+                
             }
         }
-
+		trayIcon.displayMessage("IVLESync",
+			    "Synchronization Completed",
+			    	TrayIcon.MessageType.INFO);
         return result;
     }
 }
