@@ -4,7 +4,6 @@
 
 package ivlefilesync;
 
-import javax.swing.JPanel;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 
@@ -12,6 +11,9 @@ import org.jdesktop.application.SingleFrameApplication;
  * The main class of the application.
  */
 public class IvleFileSyncApp extends SingleFrameApplication {
+	
+	//Constants to be kept in the memory during the application lifetime
+	public static boolean SYNC_PENDING = false;
 
     /**
      * At startup create and show the main frame of the application.

@@ -5,6 +5,8 @@
 
 package ivlefilesync;
 
+import ivlefilesync.util.Utils;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -15,6 +17,7 @@ import javax.swing.*;
  */
 public class IVLESystemTray {
 
+	public static SyncThread sync_thread = new SyncThread();
 	public void RunTray() {
 		
 		final TrayIcon trayIcon;
@@ -37,14 +40,15 @@ public class IVLESystemTray {
 			ActionListener manuallySyncListener = new ActionListener() {
 				public void actionPerformed(ActionEvent ae) {
 					
-					//TODO: Check first for being able to manually download or not
-					
+					//FIXME: Check first for being able to manually download or not
+					if(Utils.checkSyncPreconditions()){
 					Device_SyncResult res = IVLEClientHelper.SyncAndDownload(
 							IVLEOfflineStorage
 									.GetPropertyValue(Constants.UserID),
 							IVLEOfflineStorage
 									.GetPropertyValue(Constants.APIKey));
 					//TODO: what happens on a sync failure!Must check for value
+					}
 				}
 			};
 
@@ -104,6 +108,22 @@ public class IVLESystemTray {
 				tray.add(trayIcon);
 			} catch (AWTException e) {
 				System.err.println("TrayIcon could not be added.");
+			}
+			
+			//System Tray is added successfully
+			IVLELogOutput.getInstance().Log("First Time Start " + IVLEOfflineStorage.GetPropertyValue(Constants.FIRST_TIME_START));
+			if(IVLEOfflineStorage.GetPropertyValue(Constants.FIRST_TIME_START)!=null){
+				sync_thread.start();
+			} else {
+				FirstStartup frame = FirstStartup.getInstance();
+				IVLELogOutput.getInstance().Log("First Time Start " + IVLEOfflineStorage.GetPropertyValue(Constants.FIRST_TIME_START));
+				IvleFileSyncApp.getApplication().show(frame);	
+				
+				/*frame.addWindowListener(new WindowAdapter() {
+		            public void windowClosing(WindowEvent evt) {
+		                sync_thread.start();
+		                }
+				});*/
 			}
 
 		} else {

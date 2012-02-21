@@ -31,9 +31,11 @@ public class IVLEClientHelper {
 
         UUID result = IVLECoreClient.RegisterDevice(UserID, APIKey, DeviceSerial, DeviceName);
 
-        IVLEOfflineStorage.SetProperty(Constants.DeviceID, result.toString());
-        IVLEOfflineStorage.SetProperty(Constants.APIKey, APIKey);
-        IVLEOfflineStorage.SetProperty(Constants.UserID, UserID);
+        if(result != null){
+	        IVLEOfflineStorage.SetProperty(Constants.DeviceID, result.toString());
+	        IVLEOfflineStorage.SetProperty(Constants.APIKey, APIKey);
+	        IVLEOfflineStorage.SetProperty(Constants.UserID, UserID);
+        }
 
         return result != null;
     }

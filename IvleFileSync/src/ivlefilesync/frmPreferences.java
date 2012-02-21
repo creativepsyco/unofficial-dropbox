@@ -21,17 +21,23 @@ import java.util.logging.Logger;
  */
 public class frmPreferences extends javax.swing.JFrame {
 
-    /** Creates new form frmPreferences */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/** Creates new form frmPreferences */
     boolean doesDeviceKeyExists = false;
     String syncDirString = "";
     String stringUserId = "";
     String APIKeyString = "";
+    
     public frmPreferences() {
         initComponents();
         checkDeviceKeyExists();
         checkAPIKeyAndUserID();
         checkSyncDirExists();
     }
+    
     private void checkDeviceKeyExists() {
         String DeviceKey = "";
         DeviceKey = IVLEOfflineStorage.GetPropertyValue(Constants.DeviceID);
@@ -266,5 +272,4 @@ public class frmPreferences extends javax.swing.JFrame {
             jTextField2.setText(APIKeyString);
         } 
     }
-
 }
