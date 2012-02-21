@@ -125,9 +125,10 @@ public class IvleFileSyncView extends FrameView {
             };
 
             ActionListener setDirItemActionListener = new ActionListener() {
-
+            	frmPreferences myPreferences;
                 public void actionPerformed(ActionEvent ae) {
-                    frmPreferences myPreferences = new frmPreferences();
+                	if (myPreferences==null)
+                		myPreferences = new frmPreferences();
                     IvleFileSyncApp.getApplication().show(myPreferences);
                 }
             };
