@@ -19,6 +19,7 @@ public class IVLESystemTray {
 
 	public static SyncThread sync_thread = new SyncThread();
 	public static frmPreferences myPreferences = new frmPreferences();
+	public static IvleFileSyncAboutBox aboutBox = new IvleFileSyncAboutBox(null);
 	public void RunTray() {
 		
 		final TrayIcon trayIcon;
@@ -67,7 +68,7 @@ public class IVLESystemTray {
 				}
 				
 				private void showAboutBox() {
-					IvleFileSyncApp.getApplication().show(new IvleFileSyncAboutBox(null));
+					IvleFileSyncApp.getApplication().show(aboutBox);
 				}
 			};
 
