@@ -5,7 +5,9 @@
 
 
 package ivlefilesync;
-import sun.security.util.Debug;
+
+import java.util.Date;
+
 
 /**
  *
@@ -27,6 +29,6 @@ public class IVLELogOutput {
 
     public void Log(String s){
         // Currently prints on the Debug Window
-        Debug.println("[ivleFileSync]: ", s);
+        System.out.println("[ivleFileSync] ["+ (new Date()).toString() +"]: "+ s);
     }
 }

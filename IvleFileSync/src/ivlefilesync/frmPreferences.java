@@ -21,17 +21,23 @@ import java.util.logging.Logger;
  */
 public class frmPreferences extends javax.swing.JFrame {
 
-    /** Creates new form frmPreferences */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/** Creates new form frmPreferences */
     boolean doesDeviceKeyExists = false;
     String syncDirString = "";
     String stringUserId = "";
     String APIKeyString = "";
+    
     public frmPreferences() {
         initComponents();
         checkDeviceKeyExists();
         checkAPIKeyAndUserID();
         checkSyncDirExists();
     }
+    
     private void checkDeviceKeyExists() {
         String DeviceKey = "";
         DeviceKey = IVLEOfflineStorage.GetPropertyValue(Constants.DeviceID);
@@ -62,12 +68,14 @@ public class frmPreferences extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(ivlefilesync.IvleFileSyncApp.class).getContext().getResourceMap(frmPreferences.class);
         setTitle(resourceMap.getString("Form.title")); // NOI18N
         setName("Form"); // NOI18N
+        setResizable(false);
 
         jTextField3.setName("jTextField3"); // NOI18N
 
@@ -102,6 +110,14 @@ public class frmPreferences extends javax.swing.JFrame {
         jLabel1.setToolTipText(resourceMap.getString("jLabel1.toolTipText")); // NOI18N
         jLabel1.setName("jLabel1"); // NOI18N
 
+        jButton3.setText(resourceMap.getString("btnSave.text")); // NOI18N
+        jButton3.setName("btnSave"); // NOI18N
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
+
         jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
         jLabel4.setName("jLabel4"); // NOI18N
 
@@ -113,31 +129,38 @@ public class frmPreferences extends javax.swing.JFrame {
                 .add(11, 11, 11)
                 .add(jLabel4)
                 .addContainerGap(511, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jButton1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 130, Short.MAX_VALUE)
+                .add(jButton3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(86, 86, 86))
             .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                 .add(layout.createSequentialGroup()
                     .addContainerGap()
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(jButton1)
+                        .add(jLabel1)
+                        .add(jLabel2)
+                        .add(jLabel3))
+                    .add(24, 24, 24)
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                         .add(layout.createSequentialGroup()
-                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                .add(jLabel1)
-                                .add(jLabel2)
-                                .add(jLabel3))
-                            .add(24, 24, 24)
-                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                .add(layout.createSequentialGroup()
-                                    .add(jTextField3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 258, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                    .add(jButton2))
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                                    .add(org.jdesktop.layout.GroupLayout.LEADING, jTextField2)
-                                    .add(org.jdesktop.layout.GroupLayout.LEADING, jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 192, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
+                            .add(jTextField3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 258, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(jButton2))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jTextField2)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 192, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                     .addContainerGap(20, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(291, Short.MAX_VALUE)
+                .addContainerGap(222, Short.MAX_VALUE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jButton3)
+                    .add(jButton1))
+                .add(40, 40, 40)
                 .add(jLabel4)
                 .add(9, 9, 9))
             .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -156,13 +179,33 @@ public class frmPreferences extends javax.swing.JFrame {
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(jLabel3)
                             .add(jTextField3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 57, Short.MAX_VALUE)
-                    .add(jButton1)
-                    .add(46, 46, 46)))
+                    .addContainerGap(132, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        javax.swing.JFileChooser fc = new javax.swing.JFileChooser();
+        fc.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
+        int returnVal = fc.showOpenDialog(null);
+        if (returnVal == javax.swing.JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            //This is where a real application would open the file.
+            IVLEOfflineStorage.SetProperty("SyncDirectory", file.getAbsolutePath().toString());
+            IVLELogOutput.getInstance().Log("Opening: " + file.getName() + "." );
+            jTextField3.setText(file.getAbsolutePath().toString());
+        } else {
+            IVLELogOutput.getInstance().Log("Open command cancelled by user." );
+        }
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        //Store information in the file
+        IVLEOfflineStorage.SetProperty(Constants.UserID, jTextField1.getText());
+        IVLEOfflineStorage.SetProperty(Constants.APIKey, jTextField2.getText());
+        IVLEOfflineStorage.SetProperty(Constants.SyncDirectory, jTextField3.getText());
+}//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         boolean result = false;
@@ -185,21 +228,6 @@ public class frmPreferences extends javax.swing.JFrame {
         }
 }//GEN-LAST:event_jButton1MouseClicked
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        javax.swing.JFileChooser fc = new javax.swing.JFileChooser();
-        fc.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
-        int returnVal = fc.showOpenDialog(null);
-        if (returnVal == javax.swing.JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-            //This is where a real application would open the file.
-            IVLEOfflineStorage.SetProperty("SyncDirectory", file.getAbsolutePath().toString());
-            IVLELogOutput.getInstance().Log("Opening: " + file.getName() + "." );
-            jTextField3.setText(file.getAbsolutePath().toString());
-        } else {
-            IVLELogOutput.getInstance().Log("Open command cancelled by user." );
-        }
-    }//GEN-LAST:event_jButton2MouseClicked
-
     /**
     * @param args the command line arguments
     */
@@ -214,6 +242,7 @@ public class frmPreferences extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -243,5 +272,4 @@ public class frmPreferences extends javax.swing.JFrame {
             jTextField2.setText(APIKeyString);
         } 
     }
-
 }

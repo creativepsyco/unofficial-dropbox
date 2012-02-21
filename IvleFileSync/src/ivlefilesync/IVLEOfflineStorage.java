@@ -29,8 +29,9 @@ public class IVLEOfflineStorage {
             defaultProp.load(in);
             in.close();
         } catch (Exception e) {
-            ivleLogOutput.Log("Exception occured" + e.getMessage().toString());
-            e.printStackTrace();
+            ivleLogOutput.Log("Could Not Load Properties\n Hence Creating File" + e.getMessage().toString());
+            // Create the File
+            Save();
         }
     }
 
@@ -61,6 +62,11 @@ public class IVLEOfflineStorage {
         Save();
     }
 
+    /***
+     * GetPropertyValue
+     * @param key => the key, use from Constants.java
+     * @return null if property not found, else the value in String
+     */
     public static String GetPropertyValue(String key) {
         LoadProperties();
         return defaultProp.getProperty(key);

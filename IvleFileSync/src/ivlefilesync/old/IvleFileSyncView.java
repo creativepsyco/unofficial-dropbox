@@ -1,7 +1,9 @@
 /*
  * IvleFileSyncView.java
  */
-package ivlefilesync;
+package ivlefilesync.old;
+import ivlefilesync.*;
+import ivlefilesync.SyncThread;
 
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
@@ -16,7 +18,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import java.io.*;
 import java.awt.*;
-import java.lang.Thread;
 import javax.swing.ImageIcon;
 
 /**
