@@ -4,6 +4,8 @@
  */
 package ivlefilesync;
 
+import ivlefilesync.old.IvleFileSyncView;
+
 import java.lang.Thread;
 import com.google.gson.*;
 import java.io.File;
