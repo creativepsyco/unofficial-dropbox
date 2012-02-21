@@ -18,6 +18,7 @@ import javax.swing.*;
 public class IVLESystemTray {
 
 	public static SyncThread sync_thread = new SyncThread();
+	public static frmPreferences myPreferences = new frmPreferences();
 	public void RunTray() {
 		
 		final TrayIcon trayIcon;
@@ -55,7 +56,6 @@ public class IVLESystemTray {
 			ActionListener setPreferencesActionListener = new ActionListener() {
 
 				public void actionPerformed(ActionEvent ae) {
-					frmPreferences myPreferences = new frmPreferences();
 					IvleFileSyncApp.getApplication().show(myPreferences);
 				}
 			};

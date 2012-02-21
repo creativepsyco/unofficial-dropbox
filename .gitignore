@@ -4,3 +4,4 @@ IvleFileSync/build/*
 applicationProp.properties
 IvleFileSync/nbproject/project.properties.orig
 IvleFileSync/src/ivlefilesync/IvleFileSyncView.java.orig
+bin/
