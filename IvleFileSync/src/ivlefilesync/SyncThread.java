@@ -161,7 +161,7 @@ public class SyncThread extends Thread {
 			}
 			
 			try {
-				sleep(1000 * 30);
+				sleep(1000 * IVLEConfig.getInstance().CLIENT_FREQ_IN_SECONDS);
 			} catch (Exception e) {
 				// Something is causing not to sleep?
 			}

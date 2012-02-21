@@ -20,6 +20,8 @@ public class IVLEConfig {
     public final String UnRegisterDeviceURL = AppURL + "api/unregisterdevice/";
     public final String SyncDeviceURL = AppURL + "api/sync/";
     public final String DownloadFileURL = AppURL + "api/download/";
+    
+    public final int CLIENT_FREQ_IN_SECONDS = 30*60; //ONE HOUR
 
 
     private IVLEConfig(){
