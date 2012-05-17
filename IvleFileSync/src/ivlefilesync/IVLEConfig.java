@@ -10,6 +10,7 @@ package ivlefilesync;
  * @author msk
  */
 public class IVLEConfig {
+	// Updated class in github
     // Follow the singleton pattern
     // This class is for preferences
     // All the static strings go in here
